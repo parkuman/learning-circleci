@@ -14,6 +14,8 @@ jobs:
     steps:
       - checkout
       - run: sleep 30
+    requires:
+      - ok-to-test
 
 workflows:
   build-workflow:
@@ -21,3 +23,7 @@ workflows:
     jobs:
       - build
       - test
+      - hold:
+          type: approval
+          requires:
+            - build
