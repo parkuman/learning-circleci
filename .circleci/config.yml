@@ -8,8 +8,15 @@ jobs:
       - checkout
       - run: time
 
+  test:
+    docker:
+      - image: cimg/clojure:1.12.0-openjdk-8.0-node
+    steps:
+      - checkout
+      - run: sleep 30
+
 workflows:
   build-workflow:
+    when: pipeline.git.branch == "scary-feature"
     jobs:
       - build
-
