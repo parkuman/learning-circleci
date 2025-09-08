@@ -22,8 +22,6 @@ workflows:
     when: pipeline.git.branch == "scary-feature"
     jobs:
       - build
-      - test
       - hold:
           type: approval
-          requires:
-            - build
+      - test
