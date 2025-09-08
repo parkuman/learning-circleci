@@ -20,3 +20,4 @@ workflows:
     when: pipeline.git.branch == "scary-feature"
     jobs:
       - build
+      - test
