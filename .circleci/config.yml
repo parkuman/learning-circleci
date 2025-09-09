@@ -15,6 +15,12 @@ jobs:
       - checkout
       - run: sleep 30
 
+  print-tag:
+    docker:
+      - image: cimg/clojure:1.12.0-openjdk-8.0-node
+    steps:
+      - run: echo "<< pipeline.git.tag >>"
+
 workflows:
   build-workflow:
     when: pipeline.git.branch == "scary-feature"
@@ -27,3 +33,8 @@ workflows:
       - test:
           requires:
             - hold
+
+  tag-workflow:
+    when: pipeline.git.tag starts-with "very-important-release"
+    jobs:
+      - print-tag
