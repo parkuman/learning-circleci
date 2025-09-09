@@ -21,6 +21,13 @@ jobs:
     steps:
       - run: echo "<< pipeline.git.tag >>"
 
+  random-job:
+    type: no-op
+
+  all-good:
+    steps:
+      - run: echo "all good"
+
 workflows:
   build-workflow:
     when: pipeline.git.branch == "scary-feature"
@@ -43,3 +50,13 @@ workflows:
               only: /^very-important-release.*/
             branches:
               ignore: /.*/
+
+  against-all-odds:
+    jobs:
+      - random-job
+      - all-good:
+        requires:
+          # doesn't care if it passed or failed
+          - random-job:
+              - failed
+              - canceled
