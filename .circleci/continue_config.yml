@@ -15,19 +15,41 @@ jobs:
     steps:
       - run: echo "Docs built"
 
+  deploy-docs:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: sleep 120
+      - run: echo "Docs deployed"
+
   build-src:
     docker:
       - image: cimg/base:stable
     steps:
       - run: echo "src built"
 
+  deploy-src:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: sleep 120
+      - run: echo "src deployed"
+
 workflows:
   workflow-docs:
     when: << pipeline.parameters.run-workflow-docs >>
     jobs:
       - build-docs
+      - deploy-docs:
+          serial-group: << pipeline.project.slug >>/docs-deploy-group
+          requires:
+            - build-docs
 
   workflow-src:
     when: << pipeline.parameters.run-workflow-src >>
     jobs:
       - build-src
+      - deploy-src:
+          serial-group: << pipeline.project.slug >>/src-deploy-group
+          requires:
+            - build-src
