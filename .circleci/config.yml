@@ -59,8 +59,8 @@ workflows:
     jobs:
       - random-job
       - all-good:
-        requires:
-          # doesn't care if it passed or failed
-          - random-job:
-              - failed
-              - canceled
+          requires:
+            # doesn't care if it passed or failed
+            - random-job:
+                - failed
+                - canceled
