@@ -1,0 +1,22 @@
+version: 2.1
+
+parameters:
+  run-workflow-docs:
+    type: boolean
+    default: false
+  run-workflow-src:
+    type: boolean
+    default: false
+
+workflows:
+  workflow-docs:
+    when: << pipeline.parameters.run-workflow-docs >>
+    jobs:
+      - build-docs:
+          run: echo "Built docs"
+
+  workflow-src:
+    when: << pipeline.parameters.run-workflow-src >>
+    jobs:
+      - build-src:
+          run: echo "Built src"

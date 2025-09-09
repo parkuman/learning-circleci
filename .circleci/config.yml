@@ -1,5 +1,10 @@
 version: 2.1
 
+setup: true
+
+orbs:
+  path-filtering: circleci/path-filtering@1
+
 jobs:
   build:
     docker:
@@ -73,3 +78,13 @@ workflows:
       - all-good:
           requires:
             - random-job
+
+  setup-dynamic-config:
+    jobs:
+      - path-filtering/filter:
+          name: check-updated-files
+          mapping: |
+            docs/.* run-workflow-docs true
+            src/.* run-workflow-src true
+          base-revision: main
+          config-path: .circleci/continue_config.yml # this is the default so not actually required but left in to illustrate options
