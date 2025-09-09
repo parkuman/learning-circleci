@@ -71,7 +71,4 @@ workflows:
       - random-job
       - all-good:
           requires:
-            # doesn't care if it passed or failed
-            - random-job:
-                - failed
-                - success
+            - random-job
