@@ -8,15 +8,26 @@ parameters:
     type: boolean
     default: false
 
+jobs:
+  build-docs:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "Docs built"
+
+  build-src:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "src built"
+
 workflows:
   workflow-docs:
     when: << pipeline.parameters.run-workflow-docs >>
     jobs:
-      - build-docs:
-          run: echo "Built docs"
+      - build-docs
 
   workflow-src:
     when: << pipeline.parameters.run-workflow-src >>
     jobs:
-      - build-src:
-          run: echo "Built src"
+      - build-src
