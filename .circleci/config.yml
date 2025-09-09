@@ -63,4 +63,4 @@ workflows:
             # doesn't care if it passed or failed
             - random-job:
                 - failed
-                - passed
+                - success
