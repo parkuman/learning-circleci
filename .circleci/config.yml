@@ -35,6 +35,8 @@ workflows:
             - hold
 
   tag-workflow:
-    when: pipeline.git.tag starts-with "very-important-release"
     jobs:
-      - print-tag
+      - print-tag:
+          filters:
+            tags:
+              only: /^very-important-release.*/
