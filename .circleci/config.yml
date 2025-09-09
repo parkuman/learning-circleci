@@ -49,35 +49,35 @@ jobs:
       - run: echo "all good"
 
 workflows:
-  build-workflow:
-    when: pipeline.git.branch == "scary-feature"
-    jobs:
-      - build
-      - hold:
-          type: approval
-          requires:
-            - build
-      - test:
-          requires:
-            - hold
-
-  tag-workflow:
-    jobs:
-      - print-tag:
-          filters:
-            # run for tags starting with very-important-release BUT NOT FOR ANY BRANCHES
-            tags:
-              only: /^very-important-release.*/
-            branches:
-              ignore: /.*/
-
-  against-all-odds:
-    max_auto_reruns: 4
-    jobs:
-      - random-job
-      - all-good:
-          requires:
-            - random-job
+  # build-workflow:
+  #   when: pipeline.git.branch == "scary-feature"
+  #   jobs:
+  #     - build
+  #     - hold:
+  #         type: approval
+  #         requires:
+  #           - build
+  #     - test:
+  #         requires:
+  #           - hold
+  #
+  # tag-workflow:
+  #   jobs:
+  #     - print-tag:
+  #         filters:
+  #           # run for tags starting with very-important-release BUT NOT FOR ANY BRANCHES
+  #           tags:
+  #             only: /^very-important-release.*/
+  #           branches:
+  #             ignore: /.*/
+  #
+  # against-all-odds:
+  #   max_auto_reruns: 4
+  #   jobs:
+  #     - random-job
+  #     - all-good:
+  #         requires:
+  #           - random-job
 
   setup-dynamic-config:
     jobs:
