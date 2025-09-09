@@ -22,9 +22,13 @@ jobs:
       - run: echo "<< pipeline.git.tag >>"
 
   random-job:
+    docker:
+      - image: cimg/clojure:1.12.0-openjdk-8.0-node
     type: no-op
 
   all-good:
+    docker:
+      - image: cimg/clojure:1.12.0-openjdk-8.0-node
     steps:
       - run: echo "all good"
 
