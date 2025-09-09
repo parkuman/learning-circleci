@@ -67,6 +67,7 @@ workflows:
               ignore: /.*/
 
   against-all-odds:
+    max_auto_reruns: 4
     jobs:
       - random-job
       - all-good:
