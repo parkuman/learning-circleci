@@ -23,8 +23,19 @@ jobs:
 
   random-job:
     docker:
-      - image: cimg/clojure:1.12.0-openjdk-8.0-node
-    type: no-op
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: "Random Exit with 50/50 chance"
+          command: |
+            # Generate random number between 0 and 1
+            if [ $((RANDOM % 2)) -eq 0 ]; then
+              echo "Random result: SUCCESS (exit 0)"
+              exit 0
+            else
+              echo "Random result: FAILURE (exit 1)"
+              exit 1
+            fi
 
   all-good:
     docker:
