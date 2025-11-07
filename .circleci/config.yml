@@ -48,6 +48,12 @@ jobs:
     steps:
       - run: echo "all good"
 
+  say-hello:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "hello"
+
 workflows:
   # build-workflow:
   #   when: pipeline.git.branch == "scary-feature"

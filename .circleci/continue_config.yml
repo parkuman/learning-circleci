@@ -20,3 +20,7 @@ workflows:
     jobs:
       - build-src:
           run: echo "Built src"
+
+  say-hello:
+    jobs:
+      - say-hello
