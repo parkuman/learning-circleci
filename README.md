@@ -1,4 +1,3 @@
 # learning-circleci
 
-2.
-
+1.
