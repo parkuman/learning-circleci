@@ -85,7 +85,11 @@ workflows:
       - hold:
           requires:
             - build
-            - test: terminal
+            - test:
+                - success
+                - not_run
+                - failed
+                - canceled
       - deploy:
           requires:
             - hold
