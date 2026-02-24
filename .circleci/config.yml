@@ -85,7 +85,7 @@ workflows:
       - hold:
           requires:
             - build
-            - test
+            - test: terminal
       - deploy:
           requires:
             - hold
