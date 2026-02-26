@@ -77,10 +77,13 @@ jobs:
   hold:
     type: approval
 
+  no_op:
+    type: no-op
+
 workflows:
   no_build_job:
     jobs:
-      - hold
+      - no_op
 
   prod-build-test-and-deploy:
     jobs:
