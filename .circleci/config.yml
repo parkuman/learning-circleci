@@ -83,7 +83,7 @@ jobs:
 workflows:
   no_build_job:
     jobs:
-      - no_op
+      - no_oopp
 
   prod-build-test-and-deploy:
     jobs:
