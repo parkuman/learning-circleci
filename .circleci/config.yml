@@ -1,33 +1,22 @@
 version: 2.1
-
+parameters:
+  bug:
+    type: string
+    default: "this is buggy"
 orbs:
-  docker:
-    executors:
-      machine:
-        parameters:
-          image:
-            default: ubuntu-1604:201903-01
-            type: string
-        machine:
-          image: <<parameters.image>>
-
+  buggy-orb:
     jobs:
-      publish:
-        executor: <<parameters.executor>>
+      exhibit-bug:
+        docker: [image: "python:2.7"]
         parameters:
-          executor:
-            default: machine
-            type: executor
-          image:
+          bug:
             type: string
+            default: << pipeline.parameters.bug >>
+        environment:
+          FOO: << parameters.bug >>
         steps:
           - checkout
-
 workflows:
-  orb-workflow:
+  build-test-deploy:
     jobs:
-      - docker/publish:
-          name: build-docker
-          executor:
-            name: docker/machine
-          image: shouldnot/seethis
+      - buggy-orb/exhibit-bug
