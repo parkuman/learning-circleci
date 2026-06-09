@@ -30,4 +30,4 @@ workflows:
           name: build-docker
           executor:
             name: docker/machine
-          image: shouldnot/seethis
+          image: << pipeline.trigger_parameters.bitbucket_dc.actor_email >>/seethis
