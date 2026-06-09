@@ -1,26 +1,34 @@
 version: 2.1
 
 parameters:
-  run-workflow-docs:
+  run-all:
     type: boolean
     default: false
-  run-workflow-src:
-    type: boolean
-    default: false
+
+jobs:
+  say-hello:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - run:
+          name: Hello from continuation
+          command: echo "Hello from the continued pipeline!"
+
+  say-goodbye:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - run:
+          name: Goodbye from continuation
+          command: echo "Goodbye from the continued pipeline!"
 
 workflows:
-  workflow-docs:
-    when: << pipeline.parameters.run-workflow-docs >>
-    jobs:
-      - build-docs:
-          run: echo "Built docs"
-
-  workflow-src:
-    when: << pipeline.parameters.run-workflow-src >>
-    jobs:
-      - build-src:
-          run: echo "Built src"
-
-  say-hello:
+  continued-workflow-1:
+    when: << pipeline.parameters.run-all >>
     jobs:
       - say-hello
+
+  continued-workflow-2:
+    when: << pipeline.parameters.run-all >>
+    jobs:
+      - say-goodbye
