@@ -1,8 +1,5 @@
 version: 2.1
 
-wapodkwdpowakd
-
-
 parameters:
   bug:
     type: string
@@ -20,7 +17,20 @@ orbs:
           FOO: << parameters.bug >>
         steps:
           - checkout
+
+jobs:
+  my-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "Hello, World!"
+
 workflows:
   build-test-deploy:
     jobs:
       - buggy-orb/exhibit-bug
+  my-badass-workflow:
+    when:
+      matches: { pattern: "/^(?!develop$)(?!build_all$)(?!integration-....?)(?!integration2)(?!fedint-....?)(?!hotfix/.*?/.*$).*/", value: << pipeline.git.branch >> }
+    jobs:
+      - my-job
