@@ -1,23 +1,5 @@
 version: 2.1
 
-parameters:
-  bug:
-    type: string
-    default: "this is buggy"
-orbs:
-  buggy-orb:
-    jobs:
-      exhibit-bug:
-        docker: [image: "python:2.7"]
-        parameters:
-          bug:
-            type: string
-            default: << pipeline.parameters.bug >>
-        environment:
-          FOO: << parameters.bug >>
-        steps:
-          - checkout
-
 jobs:
   my-job:
     docker:
@@ -26,9 +8,6 @@ jobs:
       - run: echo "Hello, World!"
 
 workflows:
-  build-test-deploy:
-    jobs:
-      - buggy-orb/exhibit-bug
   my-badass-workflow:
     when:
       matches: { pattern: "/^(?!develop$)(?!build_all$)(?!integration-....?)(?!integration2)(?!fedint-....?)(?!hotfix/.*?/.*$).*/", value: << pipeline.git.branch >> }
