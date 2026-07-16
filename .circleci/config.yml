@@ -6,10 +6,18 @@ jobs:
       - image: cimg/base:stable
     steps:
       - run: echo "Hello, World!"
+      - run: exit 1
+  my-job2:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "Hello, World!"
 
 workflows:
   my-badass-workflow:
-    when:
-      matches: { pattern: "/^(?!develop$)(?!build_all$)(?!integration-....?)(?!integration2)(?!fedint-....?)(?!hotfix/.*?/.*$).*/", value: << pipeline.git.branch >> }
     jobs:
-      - my-job
+      - my-job:
+          serial-group: my-key
+      - my-job2:
+          requires:
+            - my-job
