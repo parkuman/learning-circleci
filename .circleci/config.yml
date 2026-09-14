@@ -8,7 +8,7 @@ jobs:
       - run: echo "Hello, World!"
 
 workflows:
-  my-badass-workflow:
+  my-cool-workflow:
     when:
       matches: { pattern: "/^(?!develop$)(?!build_all$)(?!integration-....?)(?!integration2)(?!fedint-....?)(?!hotfix/.*?/.*$).*/", value: << pipeline.git.branch >> }
     jobs:
