@@ -2,6 +2,11 @@ version: 2.1
 
 jobs:
   publish:
+    parameters:
+      cool-param:
+        default: "cool"
+        type: string
+        description: If cool, will be cool
     docker:
       - image: cimg/base:stable
     steps:
@@ -11,4 +16,5 @@ jobs:
 workflows:
   orb-workflow:
     jobs:
-      - publish
+      - publish:
+          cool-param: << pipeline.trigger_parameters.github_app.checkout_sha >>
