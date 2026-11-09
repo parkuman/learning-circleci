@@ -1,21 +1,13 @@
+# PIPE-10061 canary: both orbs fail to expand. Before the fix, the compile
+# error quotes the marker from the fetched file; after it, it must not.
 version: 2.1
 
-jobs:
-  publish:
-    parameters:
-      cool-param:
-        default: "cool"
-        type: string
-        description: If cool, will be cool
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - run: echo "hello"
-      - oops
+orbs:
+  scalar: https://raw.githubusercontent.com/parkuman/learning-circleci/main/canary/scalar.yml
+  notyaml: https://raw.githubusercontent.com/parkuman/learning-circleci/main/canary/not-yaml.yml
 
 workflows:
-  orb-workflow:
+  canary:
     jobs:
-      - publish:
-          cool-param: << pipeline.trigger_parameters.github_app.checkout_sha >>
+      - scalar/job
+      - notyaml/job

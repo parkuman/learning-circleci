@@ -1,0 +1,12 @@
+# PIPE-10061 PR 2 canary: the orb URL redirects to scalar.yml. Needs
+# https://httpbin.org/ on the org's URL orb allow-list. Before PR 2 the
+# redirect is followed (marker in the error); after it, a :redirected error.
+version: 2.1
+
+orbs:
+  redirected: https://httpbin.org/redirect-to?url=https://raw.githubusercontent.com/parkuman/learning-circleci/main/canary/scalar.yml
+
+workflows:
+  canary:
+    jobs:
+      - redirected/job
