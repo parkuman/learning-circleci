@@ -1,13 +1,37 @@
-# PIPE-10061 canary: both orbs fail to expand. Before the fix, the compile
-# error quotes the marker from the fetched file; after it, it must not.
+# Test: does a restricted context on an approval job gate approval, or is it
+# checked when the job unblocks? approval-test-deny always fails (expression).
 version: 2.1
 
-orbs:
-  scalar: https://raw.githubusercontent.com/parkuman/learning-circleci/main/canary/scalar.yml
-  notyaml: https://raw.githubusercontent.com/parkuman/learning-circleci/main/canary/not-yaml.yml
+jobs:
+  echo:
+    docker:
+      - image: cimg/base:stable
+    resource_class: small
+    steps:
+      - run: echo "ran $CIRCLE_JOB"
 
 workflows:
-  canary:
+  a-context-on-hold:
     jobs:
-      - scalar/job
-      - notyaml/job
+      - hold-a:
+          type: approval
+          context: approval-test-deny
+      - echo:
+          name: after-a
+          requires: [hold-a]
+  b-context-downstream:
+    jobs:
+      - hold-b:
+          type: approval
+      - echo:
+          name: deploy-b
+          context: approval-test-deny
+          requires: [hold-b]
+  c-allow-context-on-hold:
+    jobs:
+      - hold-c:
+          type: approval
+          context: approval-test-allow
+      - echo:
+          name: after-c
+          requires: [hold-c]
