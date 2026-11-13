@@ -1,37 +1,27 @@
-# Test: does a restricted context on an approval job gate approval, or is it
-# checked when the job unblocks? approval-test-deny always fails (expression).
 version: 2.1
 
+parameters:
+  MyParam:
+    type: string
+    default: "hello"
+  camelCaseFlag:
+    type: boolean
+    default: true
+  UPPER_ENUM:
+    type: enum
+    enum: ["a", "b"]
+    default: "a"
+
 jobs:
-  echo:
+  show:
     docker:
-      - image: cimg/base:stable
-    resource_class: small
+      - image: cimg/base:current
     steps:
-      - run: echo "ran $CIRCLE_JOB"
+      - run: echo "MyParam=<< pipeline.parameters.MyParam >>"
+      - run: echo "camelCaseFlag=<< pipeline.parameters.camelCaseFlag >>"
+      - run: echo "UPPER_ENUM=<< pipeline.parameters.UPPER_ENUM >>"
 
 workflows:
-  a-context-on-hold:
+  main:
     jobs:
-      - hold-a:
-          type: approval
-          context: approval-test-deny
-      - echo:
-          name: after-a
-          requires: [hold-a]
-  b-context-downstream:
-    jobs:
-      - hold-b:
-          type: approval
-      - echo:
-          name: deploy-b
-          context: approval-test-deny
-          requires: [hold-b]
-  c-allow-context-on-hold:
-    jobs:
-      - hold-c:
-          type: approval
-          context: approval-test-allow
-      - echo:
-          name: after-c
-          requires: [hold-c]
+      - show
